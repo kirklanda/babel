@@ -216,7 +216,10 @@ function getFiles(glob, { include, exclude }) {
 }
 
 function createWorker(useWorker) {
-  const numWorkers = require("os").cpus().length / 2 - 1;
+  // Round up the number of CPUs in case there's an odd number, like with WSL2 config!
+  const roundedNumCPUs = 2 * Math.round(require("os").cpus().length / 2);
+  const numWorkers = roundedNumCPUs / 2 - 1;
+
   if (numWorkers === 0 || !useWorker) {
     return require("./babel-worker.cjs");
   }
