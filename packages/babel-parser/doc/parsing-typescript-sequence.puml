@@ -1,0 +1,9 @@
+@startuml Parsing TypeScript
+Parser -> Parser : parse
+Parser -> Parser : parseTopLevel
+Parser -> StatementParser : parseProgram
+StatementParser -> StatementParser : parseBlockBody
+StatementParser -> StatementParser : parseBlockOrModuleBlockBody
+StatementParser -> StatementParser : parseStatement
+StatementParser -> TypeScriptPlugin : parseStatementContent
+@enduml
