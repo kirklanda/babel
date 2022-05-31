@@ -319,6 +319,7 @@ export const tt: { [name: string]: TokenType } = {
   // end: isTSDeclarationStart
   _opaque: createKeywordLike("opaque", { startsExpr }),
   // end: isFlowInterfaceOrTypeOrOpaque
+  _trait: createKeywordLike("trait", { startsExpr }),
   name: createToken("name", { startsExpr }),
   // end: isIdentifier
 

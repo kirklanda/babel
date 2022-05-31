@@ -1534,6 +1534,19 @@ export type TSInterfaceBody = NodeBase & {
   body: $ReadOnlyArray<TsTypeElement>,
 };
 
+export type TsTraitDeclaration = DeclarationBase & {
+  type: "TSTraitDeclaration",
+  id: ?Identifier,
+  typeParameters: ?TsTypeParameterDeclaration,
+  extends?: $ReadOnlyArray<TsExpressionWithTypeArguments>,
+  body: TSTraitBody,
+};
+
+export type TSTraitBody = NodeBase & {
+  type: "TSTraitBody",
+  body: $ReadOnlyArray<TsTypeElement>,
+};
+
 export type TsExpressionWithTypeArguments = TsTypeBase & {
   type: "TSExpressionWithTypeArguments",
   expression: TsEntityName,

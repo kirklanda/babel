@@ -16,7 +16,7 @@
     "test:runtime:generate-absolute-runtime": "node test/runtime-integration/generate-absolute-runtime.cjs",
     "test:runtime:bundlers": "node test/runtime-integration/bundlers.cjs",
     "test:runtime:node": "node test/runtime-integration/node.cjs",
-    "test:debug:babel-parser" : "jest --runInBand babel-parser"
+    "test:debug:babel-parser": "jest --runInBand babel-parser"
   },
   "packageManager": "yarn@3.1.1",
   "devDependencies": {

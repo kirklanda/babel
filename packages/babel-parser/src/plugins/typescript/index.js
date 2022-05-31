@@ -28,6 +28,7 @@ import {
   BIND_TS_CONST_ENUM,
   BIND_TS_TYPE,
   BIND_TS_INTERFACE,
+  BIND_TS_TRAIT,
   BIND_TS_AMBIENT,
   BIND_TS_NAMESPACE,
   BIND_CLASS,
@@ -1522,6 +1523,23 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return this.finishNode(node, "TSInterfaceDeclaration");
     }
 
+    tsParseTraitDeclaration(node: N.TsTraitDeclaration): N.TsTraitDeclaration {
+      if (tokenIsIdentifier(this.state.type)) {
+        node.id = this.parseIdentifier();
+        this.checkLVal(node.id, "typescript trait declaration", BIND_TS_TRAIT);
+      } else {
+        node.id = null;
+        this.raise(TSErrors.MissingTraitName, { at: this.state.startLoc });
+      }
+
+      node.typeParameters = this.tsTryParseTypeParameters();
+
+      const body: N.TSTraitBody = this.startNode();
+      body.body = this.tsInType(this.tsParseObjectTypeMembers.bind(this));
+      node.body = this.finishNode(body, "TSTraitBody");
+      return this.finishNode(node, "TSTraitDeclaration");
+    }
+
     tsParseTypeAliasDeclaration(
       node: N.TsTypeAliasDeclaration,
     ): N.TsTypeAliasDeclaration {
@@ -1925,6 +1943,14 @@ export default (superClass: Class<Parser>): Class<Parser> =>
             return this.tsParseTypeAliasDeclaration(node);
           }
           break;
+
+        case "trait":
+          if (
+            this.tsCheckLineTerminator(next) &&
+            tokenIsIdentifier(this.state.type)
+          ) {
+            return this.tsParseTraitDeclaration(node);
+          }
       }
     }
 
